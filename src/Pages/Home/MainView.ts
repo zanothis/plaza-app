@@ -1,7 +1,7 @@
-import { BrowserView, BrowserWindow } from 'electron';
-import { CONTROLS_UI_PRELOAD } from '../../index';
-import { patch } from '../../GamePatches/index';
-import { addTab } from '../Control/Control';
+import { BrowserView, BrowserWindow } from 'electron'
+import { CONTROLS_UI_PRELOAD } from '../../index'
+import { patch } from '../../GamePatches/index'
+import { addTab } from '../Control/Control'
 
 export function setupTabView(mainWindow: BrowserWindow, tabId: string, url: string): BrowserView {
     const view = new BrowserView({
@@ -15,9 +15,7 @@ export function setupTabView(mainWindow: BrowserWindow, tabId: string, url: stri
 
     view.webContents.loadURL(url)
 
-
     view.webContents.setWindowOpenHandler((details: Electron.HandlerDetails)=> {
-
         addTab(`tab:${details.url}`, details.url, details.url)
         return {
             action: 'deny'
@@ -25,11 +23,9 @@ export function setupTabView(mainWindow: BrowserWindow, tabId: string, url: stri
     })
 
     view.webContents.on('dom-ready', ()=> {
-        patch(url, view)
+        patch(view)
     })
 
     view.webContents.openDevTools()
-    return view;
-
+    return view
 }
-
